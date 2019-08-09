@@ -28,6 +28,6 @@ _Examples_
 #### Interactive 
 FILL was essentially designed to capture and characterise the interactions in class between the lecturer and students, students with their peers and students with resources. Wood et al. (2016) describes that such interactions tended to fall into two categories; those which involved interactions amongst the majority of the class and those which involve interactions between a small subset of the class. As such, the category ‘interactive’ describes the former, in which the students are thinking about a question directed at the whole-class (CQ, class question) either individually (ST, student thinking) or by discussion with their peers (SD, student discussion). This category also includes the code feedback (FB) which describes a state in which the lecturer discusses the outcome of a response to a CQ (e.g. results from a clicker vote) where students (plural) have contributed to this response and, therefore, have invested interest in. Further, the correct answer is revealed in FB (though any explanation of why it is correct is LT) such that the students can complete the ‘loop’ of peer instruction with the correct answer.   
 
-_Examples _
+_Examples_
 * ‘[shows CQ] So the question is what is the net magnetic flux passing through the Gaussian surface… have a bit of a think about that’ (CQ) 
 * ‘93% of you thought C and you were absolutely correct’ (FB) 
