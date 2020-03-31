@@ -1,3 +1,0 @@
-# Classroom Practices Project
-
-Welcome
