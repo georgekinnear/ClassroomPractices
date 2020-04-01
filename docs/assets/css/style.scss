@@ -5,6 +5,12 @@
 
 .page-header {
   color: #ffff;
-  background-color: #A067AB;
-  background-image: linear-gradient(120deg, #5073B8, #A067AB);
+  background-color: #54278f;
+  background-image: linear-gradient(120deg, #41b6c4, #54278f)
+}
+.main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
+  color: #54278f;
+}
+a {
+  color: #41b6c4;
 }
