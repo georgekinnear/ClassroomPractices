@@ -1,4 +1,4 @@
-# Paper 1 - Code and data
+# Paper 1 - Data and code
 
 This folder contains R scripts and the anonymised dataset for this paper: [Link to preprint]
 
