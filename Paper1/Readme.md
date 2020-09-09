@@ -1,6 +1,8 @@
 # Paper 1 - Data and code
 
-This folder contains R scripts and the anonymised dataset for this paper: [Link to preprint]
+This folder contains R scripts and the anonymised dataset for this paper:
+
+* Kinnear, G., Smith, S., Anderson, R., Gant, T., MacKay, J. R. D., Dr, Docherty, P., … Galloway, R. (2020, April 7). Classroom practices can be reliably classified using lecture recordings. https://doi.org/10.31219/osf.io/7n6qt
 
 ## Prepare anonymous data
 
