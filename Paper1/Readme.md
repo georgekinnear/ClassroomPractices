@@ -21,7 +21,7 @@ The script outputs an RDS file containing all the anonymised data:
 
 ## Tool comparison
 
-[Paper1_tool_comparison.Rmd](Paper1_tool_comparison.Rmd) ([Paper1_tool_comparison.pdf](knitted PDF))
+[Paper1_tool_comparison.Rmd](Paper1_tool_comparison.Rmd) ([knitted PDF](Paper1_tool_comparison.pdf))
 
 This script reads in the FILL and PORTAAL coding data from the 8 pilot lectures (files named "SS_tool_comparison*.csv"), and produces the plots in Fig 1 and Fig 2 in the paper.
 
