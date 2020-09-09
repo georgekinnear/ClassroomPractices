@@ -1,0 +1,137 @@
+---
+title: "Comparison of PORTAAL and FILL"
+author: "George Kinnear"
+date: "09/09/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(data.table) # used for reading in csv files
+library(tidyverse)
+library(scales)
+
+# https://rud.is/b/2019/06/30/make-refreshing-segmented-column-charts-with-ggchicklet/
+library(ggplot2)
+library(hrbrthemes) # used for scale_y_percent
+library(patchwork)
+```
+
+## FILL
+
+```{r fill-data, echo=FALSE}
+fill_data = read.csv("SS_tool_selection_FILL_data.csv",
+                     stringsAsFactors = FALSE) %>% 
+  mutate(
+    discipline = str_extract(lecture, "[:alpha:]*")
+  )
+fill_codes = c(
+  "A" = "Admin",
+  "F" = "Feedback",
+  "LT" = "Lecturer talk",
+  "LQ" = "Lecturer question",
+  "SQ" = "Student question",
+  "SSD" = "Student discussion",
+  "SST" = "Student silent thinking"
+)
+
+fill_plot = fill_data %>%
+  filter(!is.na(duration)) %>% # remove rows corresponding to "END", which have null duration
+  mutate(
+    title = fct_rev(lecture)
+  ) %>% 
+  ggplot(aes(title, duration, group = start_time, fill = code)) +
+  geom_col(position = position_stack(reverse = TRUE)) +
+  scale_y_time(breaks = 60*5*(0:12),
+               labels = 5*(0:12),
+               limits = c(0, 65*60)) +
+  #scale_fill_manual("FILL+ code", values = fillplus) +
+  guides(fill = guide_legend(ncol = 2,
+                             title.position = "top")) +
+  scale_fill_viridis_d("FILL code", labels = fill_codes) +
+  coord_flip() +
+  labs(x = NULL, y = "Time") +
+  theme_minimal(base_size = 11.5) +
+  theme(strip.text.y = element_text(angle = 0),
+        panel.grid.minor.x=element_blank(),
+        panel.grid.major.y=element_blank(),
+        #        panel.spacing=grid::unit(2, "lines"),
+        strip.text=element_text(hjust=0, size=12),
+        legend.position = "bottom",
+        legend.key.size = unit(0.5, "lines"))
+fill_plot
+ggsave("Paper1_FILL_timeline.pdf",width=15,height=7,units="cm",dpi=300)
+```
+
+## PORTAAL
+
+```{r portaal-data}
+portaal_data = read.csv("SS_tool_selection_PORTAAL_data.csv",
+                     stringsAsFactors = FALSE) %>% 
+  mutate(
+    discipline = str_extract(lecture, "[:alpha:]*")
+  ) %>% 
+  pivot_longer(cols = contains("activities"),
+               names_to = "series",
+               values_to = "count") %>% 
+  mutate(
+    series = case_when(
+      series == "activities" ~ "Total activities",
+      str_detect(series, "sg") ~ "Question discussed in small groups",
+      str_detect(series, "ind") ~ "Question with individual thinking time"
+    )
+  )
+
+portaal_plot = portaal_data %>% 
+  ggplot(aes(x = lecture, y = count, fill = series)) +
+  #geom_line(col = "gray") +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_viridis_d("PORTAAL activities",
+                       end = 0.7,
+                       option = "plasma",
+                       direction = -1) +
+  guides(fill = guide_legend(ncol = 1,
+                             title.position = "top")) +
+  labs(x = NULL, y = "Count") +
+  theme_minimal(base_size = 11.5) +
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.5, "lines"))
+portaal_plot
+ggsave("Paper1_PORTAAL_queston_data.pdf",width=15,height=7,units="cm",dpi=300)
+
+
+paper_fig = fill_plot + portaal_plot +
+  plot_annotation(tag_levels = "a",
+                  tag_prefix = "(",
+                  tag_suffix = ")")
+paper_fig
+ggsave("Paper1_FILL_PORTAAL.pdf",width=16,height=7,units="cm",dpi=300)
+```
+
+
+## Activity comparison
+
+```{r activity-comparison}
+activity_counts = read.csv("SS_tool_selection_activity_count.csv",
+                           stringsAsFactors = FALSE) %>% 
+  mutate(
+    discipline = str_extract(lecture, "[:alpha:]*"),
+    lecture = str_trim(lecture)
+  )
+  
+activity_counts %>% 
+  pivot_longer(cols = starts_with("activities"),
+               names_to = "tool",
+               names_prefix = "activities_",
+               values_to = "count") %>% 
+  mutate(tool = str_to_upper(tool)) %>% 
+  ggplot(aes(x = lecture, y = count, group = lecture, colour = tool)) +
+  geom_line(col = "gray") +
+  geom_point(size = 3) +
+  scale_colour_viridis_d("Tool", end = 0.7) +
+  labs(x = NULL, y = "Count of activities") +
+  theme_minimal(base_size = 11.5)
+ggsave("Paper1_FILL_PORTAAL_comparison.pdf",width=15,height=7,units="cm",dpi=300)
+
+```
